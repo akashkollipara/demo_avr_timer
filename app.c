@@ -13,7 +13,7 @@ void test()
 {
 	module_t *t;
 	mret_t mres;
-	mres = arch_machine_call(fetch_dp, timer, 0x10, 0);
+	arch_machine_call(fetch_dp, timer, 0x10, 0, &mres);
 	if(mres.status != success)
 	{
 		printf("Error!\n");
