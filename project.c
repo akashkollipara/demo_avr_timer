@@ -17,13 +17,13 @@
 #include <hal/gpio.h>
 #include <arch.h>
 
-gpio_port_t led_13;
+static gpio_port_t led_13;
 
 void plug()
 {
 	bootstrap();
 	driver_setup_all();
-	gpio_pin_alloc(&led_13, 0, 5);
+	gpio_pin_alloc(&led_13, PORTB, 5);
 	gpio_pin_mode(&led_13, out);
 	gpio_pin_clear(&led_13);
 
@@ -38,27 +38,20 @@ void plug()
 
 char progress[] = "-\\|/";
 
-void delay(unsigned long d)
-{
-	unsigned long c;
-	for(c = 0; c < d; c++)
-		asm volatile("nop");
-}
-
 static int i = 0;
 void play()
 {
-	wdog_guard(3, true, NULL);
+	wdog_guard(2, true, NULL);
 	gpio_pin_toggle(&led_13);
 	printf("%c]", progress[i]);
-	printf("\b\b");
 	wdog_hush();
 	arch_wfi();
+	printf("\b\b");
 	return;
 }
 
 void temp()
 {
 	i++;
-	i = i > 3 ? 0 : i;
+	i = i & 3;
 }
