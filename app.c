@@ -24,7 +24,7 @@ void test()
 	te.clk_id = t->clk_id;
 	te.baddr = t->baddr;
 	te.value = 7812;
-	te.tmr_irq = t->interrupt_id[0];
+	te.tmr_irq = t->interrupt[0].id;
 	extern void temp();
 	te.tmr_handler = temp;
 
