@@ -10,12 +10,13 @@
 
 #include <stdio.h>
 #include <status.h>
+#include <arch.h>
 #include <terravisor/platform.h>
 #include <terravisor/bootstrap.h>
 #include <driver.h>
 #include <driver/watchdog.h>
+#include <platform.h>
 #include <hal/gpio.h>
-#include <arch.h>
 
 static gpio_port_t led_13;
 
@@ -41,7 +42,7 @@ char progress[] = "-\\|/";
 static int i = 0;
 void play()
 {
-	wdog_guard(2, true, NULL);
+	wdog_guard(WDT_64MS, true, NULL);
 	gpio_pin_toggle(&led_13);
 	printf("%c]", progress[i]);
 	wdog_hush();
